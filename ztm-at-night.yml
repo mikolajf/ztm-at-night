@@ -1,0 +1,4 @@
+name: ztm-at-night
+dependencies:
+- python=3
+- pandas
