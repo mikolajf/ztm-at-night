@@ -1,11 +1,8 @@
 name: ztm-at-night
 dependencies:
 - python=3
-- pandas
-- py7zlib
 - os
-- md5
 - re
 - datetime
-- shutil
-- ftplib 
+- urllib 
+- subprocess
