@@ -54,12 +54,22 @@ def processWK(f,numer_lini):
         if line[:1] == "#":
             break 
     return False 
-           
+     
 
+	 
+def read_large_file(file_object):
+    """
+    Uses a generator to read a large file lazily
+    """
+    while True:
+        data = file_object.readline()
+        if not data:
+            break
+        yield data
 
 def parse_file(filename):
     with open(filename,"r") as f:
-        fo = f.readlines()
+        fo = read_large_file()
     
     retcode = False
     for line in fo:
@@ -106,18 +116,6 @@ def download_7zfile(new = False):
 	        print(str(e))
 
 	return(latest_file)
-
-def readlines(name):
-    # Iterate lines
-    linesep = os.linesep[-1]
-    line = ''
-    for ch in self.bytestream(name):
-        line += ch
-        if ch == linesep:
-            yield line.decode("cp1250").encode('utf-8')
-            line = ''
-    if line: yield line.decode("cp1250").encode('utf-8')
-
 
 if __name__ == "__main__": 
     # check for existing files or append a new one
