@@ -103,8 +103,7 @@ def processZP(f,lines):
 						stops_file.write(line[9:15] + ',' + nazwa + " "+ line[13:15] + "," + m.group(1) + ',' + m.group(2) + "\n")
 					else:
 						wstop[line[9:15]] = line[9:]
-						#wrong_stops[line[9:15]] = line[9:]
-						#print "error:" + nazwa + " " + line[9:]    
+  
 				if line[6:7] == "#":
 					if i==0:
 						wrong_stops.update(wstop)
@@ -151,16 +150,6 @@ def processLL(f,lines):
 			infolinia =  line.rstrip().split()
 			print("Parsing line: " + line)
 			next(f)
-			#print l
-			route_type = '3'
-			l = infolinia[1]
-			
-			# if  l[:2] == "KM" or l[:1]=="S" or l[:3] == "WKD":
-			# 	route_type='2'
-			# elif infolinia[1][:1].isdigit() and int(infolinia[1]) <100:
-			# 	route_type='0'
-			
-			# routes_file.write(l + "," + l + "," + route_type + "\n")
 				   
 			processWK(f,infolinia[1])
 			
@@ -172,7 +161,7 @@ def processLL(f,lines):
 	return False 
 
 def processWK(f,numer_lini):
-	global kursy_counter,dane_counter,trips, trips_sums, days , wrong_stops,trips_file,stop_times_file
+	global kursy_counter, dane_counter, trips_sums, trips_file,stop_times_file
 	# tsum_counter = len(trips_sums)
 	for line in f:
 		if line[6:9] == "*WK":
@@ -181,21 +170,15 @@ def processWK(f,numer_lini):
 			kursy = dict()
 			przebieg_kursu = list()
 			
-			m = ''
+			m = hashlib.md5()
 
 			for line in f:
-				
 				if line[6:9] == "#WK":
-				   
-					break
+						break
 				
 				pola = line.split()
-				
-					
-					
-  
-				if(pola[0] in kursy):
 
+				if(pola[0] in kursy):
 					m.update(pola[1].encode('utf-8'))
 					przebieg_kursu.append([pola[1],pola[3]])
 				else:
@@ -206,18 +189,13 @@ def processWK(f,numer_lini):
 					m.update(pola[2].encode('utf-8'))
 					przebieg_kursu.append([pola[1],pola[3]])
 					kursy[pola[0]] = kursy_counter
-
-					
 						
 				if len(pola)==5:
-					
-				  
 					if (pola[4]=="P"):
 						if (m.digest() in trips_sums):
 							t = trips_sums[m.digest()] 
 							write_stop_times(stop_times_file, przebieg_kursu, t)
-							   
-								
+		
 						else:
 							# nalezy dodac nowy wpis do trips
 							tid =len(trips_sums)+1 
@@ -231,11 +209,6 @@ def processWK(f,numer_lini):
 			  
 			break    
 	 
-	 
-	 
-	 
-	 
-
 	 
 def read_large_file(file_object):
 	"""
@@ -266,12 +239,6 @@ def parse_file(filename):
 			retcode = eval('process' + line[1:3] +'(fo,' + line[4:]+')')
 			if retcode:
 				break
-
-
-
-
-
-
 
 
 if __name__ == "__main__": 
