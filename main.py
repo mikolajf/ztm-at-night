@@ -129,7 +129,7 @@ def write_stop_times(tsfile, times_list, trip_id):
     i=1
     for tl in times_list:
         time = str(tl[1]).replace(".",":")
-        tsfile.write(str(trip_id)+","+time+":00," +time+":00,"+tl[0] +","+str(i) +"\n")
+        tsfile.write(str(trip_id)+","+time+":00," +tl[0] +","+str(i) +"\n")
         i = i+1
 
 def processLL(f,lines):
@@ -140,7 +140,7 @@ def processLL(f,lines):
 	stop_times_file = open('results/stop_times.txt','w')
 	trips_file = open('results/trips.txt','w')
 
-	stop_times_file.write("trip_id,arrival_time,departure_time,stop_id,stop_sequence\n")
+	stop_times_file.write("trip_id,arrival_time,stop_id,stop_sequence\n")
 	trips_file.write("route_id,service_id,trip_id\n")
 
 	counter = 0 
